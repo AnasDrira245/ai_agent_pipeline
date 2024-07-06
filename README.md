@@ -9,12 +9,6 @@ This application is a web-based chatbot interface that uses the Mistral AI model
 - User-friendly chat interface
 - Real-time response generation using the Mistral AI model
 
-## How to Use
-
-1. Run the application.
-2. Enter your message in the chat input.
-3. Press Enter to send your message.
-4. The chatbot will generate a response and display it in the chat interface.
 
 ## Deployment
 
