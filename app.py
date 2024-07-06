@@ -11,7 +11,7 @@ api_key = os.environ["MISTRAL_API_KEY"]
 st.title("💬 Chatbot")
 model = "mistral-large-latest"
 st.write(
-    "My name is Anas Drira This is a simple chatbot that uses Mistreal model to generate responses."
+    "My name is Anas Drira i made this simple chatbot that uses Mistreal model to generate code."
     "this webpage is used for testing now "
 )
 
