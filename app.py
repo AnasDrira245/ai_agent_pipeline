@@ -3,6 +3,7 @@ from mistralai.client import MistralClient
 from mistralai.models.chat_completion import ChatMessage
 from dotenv import load_dotenv
 import os
+import time
 
 load_dotenv()
 
@@ -11,22 +12,16 @@ api_key = os.environ["MISTRAL_API_KEY"]
 st.title("💬 Chatbot")
 model = "mistral-large-latest"
 st.write(
-    "My name is Anas Drira i made this simple chatbot that uses Mistreal model to generate code."
-    "this webpage is used for testing now "
+    "My name is Anas Drira, I made this simple chatbot that uses the Mistral model to generate code."
+    "This webpage is used for testing now."
 )
-
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-
 
 if not api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
-
     client = MistralClient(api_key=api_key)
 
-    st.title("code generator")
+    st.title("Code Generator")
 
     # Set a default model
     if "mistral_model" not in st.session_state:
@@ -40,6 +35,12 @@ else:
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
+
+    # Function to simulate response streaming
+    def stream_response(response):
+        for word in response.split():
+            yield word + " "
+            time.sleep(0.05)
 
     # Accept user input
     if prompt := st.chat_input("What is up?"):
@@ -56,11 +57,17 @@ else:
                 ChatMessage(role="user", content=prompt)
             ]
         )
-        assistant_message = chat_response.choices[0].message.content
+        assistant_message_full = chat_response.choices[0].message.content
 
-        # Display assistant response in chat message container
+        # Simulate real-time streaming of the assistant's message
         with st.chat_message("assistant"):
-            st.markdown(assistant_message)
+            response_placeholder = st.empty()
+            assistant_message = ""
+            response_placeholder.markdown(assistant_message)
+
+            for word in stream_response(assistant_message_full):
+                assistant_message += word
+                response_placeholder.markdown(assistant_message)
 
         # Add assistant message to chat history
         st.session_state.messages.append({"role": "assistant", "content": assistant_message})
