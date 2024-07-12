@@ -1,6 +1,7 @@
 streamlit
 python-dotenv
 mistralai
-llama_index
+llama-index
 llama-index-llms-mistralai
 llama-index-embeddings-mistralai
+llama-index-tools-code-interpreter
