@@ -2,3 +2,4 @@ streamlit
 python-dotenv
 mistralai
 llama_index
+llama-index-llms-mistralai
