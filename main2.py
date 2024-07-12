@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 
-load_dotenv()
-api_key = os.environ["MISTRAL_API_KEY"]
+
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import FunctionTool
@@ -24,6 +23,9 @@ import numpy as np
 import os
 from getpass import getpass
 from llama_index.tools.code_interpreter.base import CodeInterpreterToolSpec
+
+load_dotenv()
+api_key = os.environ["MISTRAL_API_KEY"]
 
 def multiply(a: float, b: float) -> float:
     """Multiply two numbers and returns the product"""
