@@ -1,6 +1,4 @@
 from dotenv import load_dotenv
-
-
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import FunctionTool
@@ -23,6 +21,13 @@ import numpy as np
 import os
 from getpass import getpass
 from llama_index.tools.code_interpreter.base import CodeInterpreterToolSpec
+from llama_index.core.tools import BaseTool, FunctionTool
+
+import nest_asyncio
+
+nest_asyncio.apply()
+from llama_index.core.agent import FunctionCallingAgentWorker
+
 
 load_dotenv()
 api_key = os.environ["MISTRAL_API_KEY"]
@@ -38,13 +43,20 @@ def add(a: float, b: float) -> float:
 
 add_tool = FunctionTool.from_defaults(fn=add)
 
-Settings.llm = MistralAI(model="mistral-medium", api_key=api_key)
+Settings.llm = MistralAI(model="mistral-large-latest", api_key=api_key)
 Settings.embed_model = MistralAIEmbedding(model_name='mistral-embed', api_key=api_key)
 
 code_spec = CodeInterpreterToolSpec()
 tools = code_spec.to_tool_list() + [multiply_tool, add_tool]
 
 
-agent = ReActAgent.from_tools(tools, verbose=True)
+#1111 agent = ReActAgent.from_tools(tools, verbose=True)
 # response = agent.chat("write a python code that make the sum of 5+5")
 # print(response)
+
+agent_worker = FunctionCallingAgentWorker.from_tools(
+    tools=tools,
+    verbose=True,
+    allow_parallel_tool_calls=False,
+)
+agent = agent_worker.as_agent()
