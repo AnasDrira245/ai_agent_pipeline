@@ -3,3 +3,4 @@ python-dotenv
 mistralai
 llama_index
 llama-index-llms-mistralai
+llama-index-embeddings-mistralai
