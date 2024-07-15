@@ -32,10 +32,8 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
 
     # Get completion from Mistral
-    try:
-        assistant_message = agent.chat(prompt)
-    except :
-        assistant_message="i'm not able to find answer to your query "
+
+    assistant_message = agent.chat(prompt)
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         st.markdown(assistant_message)
